@@ -219,28 +219,6 @@ const Dashboard = ({ onEditExpense, onViewAllExpenses }) => {
         </div>
       )}
 
-      {/* Quick Actions */}
-      <div className="quick-actions">
-        <h3>Quick Actions</h3>
-        <div className="actions-grid">
-          <button className="action-btn">
-            <DollarSign size={20} />
-            Add Expense
-          </button>
-          <button className="action-btn">
-            <BarChart3 size={20} />
-            View Reports
-          </button>
-          <button className="action-btn">
-            <Calendar size={20} />
-            Set Budget
-          </button>
-          <button className="action-btn">
-            <TrendingUp size={20} />
-            Analyze Trends
-          </button>
-        </div>
-      </div>
     </div>
   );
 };
