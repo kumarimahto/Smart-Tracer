@@ -54,13 +54,13 @@ function AppContent() {
   const renderCurrentView = () => {
     switch (currentView) {
       case 'dashboard':
-        return <Dashboard onEditExpense={handleEditExpense} />;
+        return <Dashboard onEditExpense={handleEditExpense} onViewAllExpenses={() => setCurrentView('expenses')} />;
       case 'expenses':
         return <ExpenseList onEditExpense={handleEditExpense} />;
       case 'insights':
         return <AIInsights />;
       default:
-        return <Dashboard onEditExpense={handleEditExpense} />;
+        return <Dashboard onEditExpense={handleEditExpense} onViewAllExpenses={() => setCurrentView('expenses')} />;
     }
   };
 
