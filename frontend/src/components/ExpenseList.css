@@ -142,6 +142,13 @@
   justify-content: space-between;
   align-items: flex-start;
   margin-bottom: 16px;
+  position: relative;
+  gap: 16px;
+}
+
+.expense-title {
+  flex: 1;
+  min-width: 0;
 }
 
 .expense-title h3 {
@@ -150,6 +157,8 @@
   font-size: 1.1rem;
   font-weight: 600;
   line-height: 1.3;
+  word-wrap: break-word;
+  overflow: hidden;
 }
 
 .expense-amount {
@@ -160,35 +169,49 @@
 
 .expense-actions {
   display: flex;
-  gap: 8px;
+  gap: 10px;
+  flex-shrink: 0;
+  align-items: flex-start;
 }
 
 .action-btn {
-  background: none;
-  border: none;
+  background: white;
+  border: 2px solid var(--border-color);
   cursor: pointer;
-  padding: 8px;
-  border-radius: 6px;
-  color: var(--text-secondary);
+  padding: 10px;
+  border-radius: 8px;
+  color: var(--text-primary);
   transition: all 0.2s ease;
   display: flex;
   align-items: center;
   justify-content: center;
+  width: 44px;
+  height: 44px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.action-btn svg {
+  width: 18px;
+  height: 18px;
 }
 
 .action-btn:hover {
   background: var(--bg-hover);
   color: var(--text-primary);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-md);
 }
 
 .edit-btn:hover {
   background: rgba(54, 162, 235, 0.1);
   color: #36A2EB;
+  border-color: #36A2EB;
 }
 
 .delete-btn:hover {
   background: rgba(239, 68, 68, 0.1);
   color: #EF4444;
+  border-color: #EF4444;
 }
 
 /* Expense Details */
@@ -251,14 +274,15 @@
 /* Recurring Badge */
 .recurring-badge {
   position: absolute;
-  top: 12px;
-  right: 12px;
+  top: 70px;
+  right: 20px;
   background: var(--success-color-light);
   color: var(--success-color);
-  padding: 4px 8px;
+  padding: 4px 10px;
   border-radius: 8px;
   font-size: 0.75rem;
   font-weight: 500;
+  z-index: 1;
 }
 
 /* Pagination */
