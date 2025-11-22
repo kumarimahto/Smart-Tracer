@@ -119,14 +119,7 @@ npm run dev
 
 ## Environment Variables
 
-### Backend (.env)
-```env
-PORT=3001
-MONGODB_URI=mongodb://localhost:27017/smart-expense-tracker
-MONGODB_URI_CLUSTER=mongodb+srv://username:password@cluster.mongodb.net/database
-GEMINI_API_KEY=your_gemini_api_key_here
-NODE_ENV=development
-```
+
 
 ## Usage
 
