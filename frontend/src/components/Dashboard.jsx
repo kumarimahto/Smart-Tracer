@@ -7,7 +7,7 @@ import { expenseAPI } from '../services/api';
 import { formatCurrency, formatDate, getCurrentMonthRange } from '../utils/formatters';
 import './Dashboard.css';
 
-const Dashboard = ({ onEditExpense }) => {
+const Dashboard = ({ onEditExpense, onViewAllExpenses }) => {
   const { isDarkMode } = useTheme();
   const { expenses } = useExpenses();
   const [dashboardData, setDashboardData] = useState(null);
@@ -196,14 +196,14 @@ const Dashboard = ({ onEditExpense }) => {
           <div className="section-header">
             <h3>Recent Expenses</h3>
             <button 
-              onClick={() => onEditExpense && onEditExpense(null)}
+              onClick={() => onViewAllExpenses && onViewAllExpenses()}
               className="view-all-btn"
             >
               View All
             </button>
           </div>
           <div className="recent-expenses-grid">
-            {recentExpenses.slice(0, 5).map((expense) => (
+            {recentExpenses.slice(0, 2).map((expense) => (
               <div key={expense._id} className="expense-item">
                 <div className="expense-item-main">
                   <div className="expense-item-title">{expense.title}</div>
