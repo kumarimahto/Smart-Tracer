@@ -158,3 +158,4 @@ Your MongoDB cluster URL: `mongodb+srv://Expense:<password>@cluster0.vtt0jda.mon
 
 Replace `<password>` with your database password in `backend/.env`
 Contribution test
+UI updated
