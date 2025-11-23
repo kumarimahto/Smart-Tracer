@@ -20,6 +20,28 @@ const ExpenseList = ({ onEditExpense }) => {
   const { isDarkMode } = useTheme();
   const [deleteConfirm, setDeleteConfirm] = useState(null);
 
+  // Apply client-side sorting to ensure title sorting works correctly
+  const sortedExpenses = React.useMemo(() => {
+    if (!expenses || expenses.length === 0) return expenses;
+
+    const sorted = [...expenses];
+
+    if (filters.sortBy === 'title') {
+      sorted.sort((a, b) => {
+        const titleA = a.title.toLowerCase();
+        const titleB = b.title.toLowerCase();
+        
+        if (filters.sortOrder === 'asc') {
+          return titleA.localeCompare(titleB);
+        } else {
+          return titleB.localeCompare(titleA);
+        }
+      });
+    }
+
+    return sorted;
+  }, [expenses, filters.sortBy, filters.sortOrder]);
+
   const categories = [
     'all', 'Food & Dining', 'Transportation', 'Shopping', 'Entertainment',
     'Bills & Utilities', 'Healthcare', 'Travel', 'Education', 'Groceries',
@@ -148,7 +170,7 @@ const ExpenseList = ({ onEditExpense }) => {
       </div>
 
       {/* Expense List */}
-      {expenses.length === 0 ? (
+      {sortedExpenses.length === 0 ? (
         <div className="no-expenses">
           <div className="no-expenses-icon">💰</div>
           <h3>No expenses found</h3>
@@ -157,7 +179,7 @@ const ExpenseList = ({ onEditExpense }) => {
       ) : (
         <>
           <div className="expenses-grid">
-            {expenses.map((expense) => (
+            {sortedExpenses.map((expense) => (
               <div key={expense._id} className="expense-card">
                 <div className="expense-header">
                   <div className="expense-title">
@@ -172,14 +194,14 @@ const ExpenseList = ({ onEditExpense }) => {
                       className="action-btn edit-btn"
                       title="Edit expense"
                     >
-                      <Edit2 size={16} />
+                      ✏️
                     </button>
                     <button
                       onClick={() => setDeleteConfirm(expense._id)}
                       className="action-btn delete-btn"
                       title="Delete expense"
                     >
-                      <Trash2 size={16} />
+                      ×
                     </button>
                   </div>
                 </div>
