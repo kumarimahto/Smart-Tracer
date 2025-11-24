@@ -54,6 +54,8 @@ export const ExpenseProvider = ({ children }) => {
       if (response.success) {
         setExpenses(response.data);
         setPagination(response.pagination);
+        // Update localStorage with latest expenses for budget notifications
+        localStorage.setItem('expenses', JSON.stringify(response.data));
       } else {
         setError('Failed to fetch expenses');
       }
@@ -75,7 +77,14 @@ export const ExpenseProvider = ({ children }) => {
       const response = await expenseAPI.create(expenseData);
       
       if (response.success) {
-        // Refresh expenses list
+        // Add new expense to local state immediately
+        setExpenses(prev => [response.data, ...prev]);
+        
+        // Update localStorage with new expense
+        const updatedExpenses = [response.data, ...expenses];
+        localStorage.setItem('expenses', JSON.stringify(updatedExpenses));
+        
+        // Refresh expenses list to get proper pagination
         await fetchExpenses(pagination.currentPage);
         return { success: true, data: response.data };
       } else {

@@ -10,6 +10,7 @@ import {
   Legend,
   PointElement,
   LineElement,
+  Filler,
 } from 'chart.js';
 import { Doughnut, Bar, Line } from 'react-chartjs-2';
 
@@ -23,7 +24,8 @@ ChartJS.register(
   Tooltip,
   Legend,
   PointElement,
-  LineElement
+  LineElement,
+  Filler
 );
 
 // Category Spending Chart (Doughnut)

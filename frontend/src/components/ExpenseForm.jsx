@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
 import { X, DollarSign, Calendar, Tag, FileText, CreditCard, Repeat } from 'lucide-react';
 import { useExpenses } from '../context/ExpenseContext';
+import { useNotifications } from '../context/NotificationContext';
 import { aiAPI } from '../services/api';
 import './ExpenseForm.css';
 
 const ExpenseForm = ({ isOpen, onClose, expense = null, onSubmit }) => {
   const { createExpense, updateExpense } = useExpenses();
+  const { checkBudgetLimits } = useNotifications();
   const isEditing = Boolean(expense);
 
   const [formData, setFormData] = useState({
@@ -132,6 +134,15 @@ const ExpenseForm = ({ isOpen, onClose, expense = null, onSubmit }) => {
 
       if (result.success) {
         onSubmit?.(result.data);
+        
+        // Check budget limits after adding expense with a small delay
+        if (!isEditing) {
+          // Only check budget for new expenses
+          setTimeout(() => {
+            checkBudgetLimits(expenseData.amount, expenseData.date);
+          }, 100);
+        }
+        
         onClose();
         // Reset form
         setFormData({
