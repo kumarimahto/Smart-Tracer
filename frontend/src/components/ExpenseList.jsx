@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Edit2, Trash2, Calendar, Tag, CreditCard, DollarSign } from 'lucide-react';
 import { useExpenses } from '../context/ExpenseContext';
+import { useNotifications } from '../context/NotificationContext';
 import { useTheme } from '../context/ThemeContext';
 import { formatDate, formatCurrency } from '../utils/formatters';
 import './ExpenseList.css';
@@ -17,6 +18,7 @@ const ExpenseList = ({ onEditExpense }) => {
     updateFilters 
   } = useExpenses();
   
+  const { recheckBudgetAfterDelete } = useNotifications();
   const { isDarkMode } = useTheme();
   const [deleteConfirm, setDeleteConfirm] = useState(null);
 
@@ -57,6 +59,8 @@ const ExpenseList = ({ onEditExpense }) => {
     const result = await deleteExpense(id);
     if (result.success) {
       setDeleteConfirm(null);
+      // Recheck budget after deletion
+      recheckBudgetAfterDelete();
     }
   };
 

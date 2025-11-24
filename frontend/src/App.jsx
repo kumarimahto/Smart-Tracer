@@ -2,11 +2,12 @@ import React, { useState, useEffect } from 'react';
 import { Moon, Sun, Plus, BarChart3, List, Brain, Settings, DollarSign, Calendar, Zap, TrendingUp, Wallet } from 'lucide-react';
 import { ThemeProvider, useTheme } from './context/ThemeContext';
 import { ExpenseProvider } from './context/ExpenseContext';
+import { NotificationProvider } from './context/NotificationContext';
 import ExpenseForm from './components/ExpenseForm';
 import ExpenseList from './components/ExpenseList';
 import Dashboard from './components/Dashboard';
 import AIInsights from './components/AIInsights';
-import BudgetManager from './components/BudgetManager';
+import NotificationPanel from './components/NotificationPanel';
 import { healthCheck } from './services/api';
 import './App.css';
 
@@ -50,7 +51,6 @@ function AppContent() {
     { id: 'dashboard', label: 'Dashboard', icon: BarChart3 },
     { id: 'expenses', label: 'Expenses', icon: List },
     { id: 'insights', label: 'AI Insights', icon: Brain },
-    { id: 'budget', label: 'Set Budget', icon: Calendar },
   ];
 
   const renderCurrentView = () => {
@@ -61,8 +61,6 @@ function AppContent() {
         return <ExpenseList onEditExpense={handleEditExpense} />;
       case 'insights':
         return <AIInsights />;
-      case 'budget':
-        return <BudgetManager />;
       default:
         return <Dashboard onEditExpense={handleEditExpense} onViewAllExpenses={() => setCurrentView('expenses')} />;
     }
@@ -99,6 +97,9 @@ function AppContent() {
         </div>
 
         <div className="header-right">
+          {/* Notifications */}
+          <NotificationPanel />
+          
           {/* Add Expense Button */}
           <button
             onClick={() => setIsExpenseFormOpen(true)}
@@ -188,7 +189,9 @@ function App() {
   return (
     <ThemeProvider>
       <ExpenseProvider>
-        <AppContent />
+        <NotificationProvider>
+          <AppContent />
+        </NotificationProvider>
       </ExpenseProvider>
     </ThemeProvider>
   );
