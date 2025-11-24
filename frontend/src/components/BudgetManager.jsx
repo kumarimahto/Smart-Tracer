@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Calendar, DollarSign, Target, TrendingUp, Save, Edit3 } from 'lucide-react';
+import { Calendar, DollarSign, Target, TrendingUp, Save, Pencil } from 'lucide-react';
 import { useTheme } from '../context/ThemeContext';
 import { formatCurrency } from '../utils/formatters';
 import './BudgetManager.css';
@@ -208,6 +208,13 @@ const BudgetManager = () => {
                       {isCurrentMonth && <span className="current-badge">Current Month</span>}
                     </div>
                     <div className="budget-actions">
+                      <button 
+                        onClick={() => handleEdit(budget)}
+                        className="edit-btn"
+                        title="Edit budget"
+                      >
+                        <Pencil size={16} />
+                      </button>
                       <button 
                         onClick={() => handleDelete(budget.id)}
                         className="delete-btn"

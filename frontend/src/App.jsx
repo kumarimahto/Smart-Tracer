@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Moon, Sun, Plus, BarChart3, List, Brain, Settings, DollarSign, Calendar } from 'lucide-react';
+import { Moon, Sun, Plus, BarChart3, List, Brain, Settings, DollarSign, Calendar, Zap, TrendingUp, Wallet } from 'lucide-react';
 import { ThemeProvider, useTheme } from './context/ThemeContext';
 import { ExpenseProvider } from './context/ExpenseContext';
 import ExpenseForm from './components/ExpenseForm';
@@ -74,8 +74,14 @@ function AppContent() {
       <header className="app-header">
         <div className="header-left">
           <div className="logo">
-            <DollarSign size={32} />
-            <h1>Smart Expense Tracker</h1>
+            <div className="logo-icon">
+              <div className="logo-primary-icon">💰</div>
+              <div className="logo-secondary-icon">📊</div>
+            </div>
+            <div className="logo-text">
+              <h1>ExpenseTracker</h1>
+              <span className="logo-subtitle">Smart Finance</span>
+            </div>
           </div>
           
           {/* Server Status Indicator */}
@@ -110,7 +116,7 @@ function AppContent() {
             className="theme-toggle"
             title={isDarkMode ? 'Switch to light mode' : 'Switch to dark mode'}
           >
-            {isDarkMode ? <Sun size={20} /> : <Moon size={20} />}
+            {isDarkMode ? <Sun size={32} /> : <Moon size={32} />}
           </button>
         </div>
       </header>
