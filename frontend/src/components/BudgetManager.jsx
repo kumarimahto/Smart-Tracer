@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Calendar, DollarSign, Target, TrendingUp, Save, Pencil } from 'lucide-react';
+import { Calendar, IndianRupee, Target, TrendingUp, Save, Pencil } from 'lucide-react';
 import { useTheme } from '../context/ThemeContext';
 import { formatCurrency } from '../utils/formatters';
 import './BudgetManager.css';

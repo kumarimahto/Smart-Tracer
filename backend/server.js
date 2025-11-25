@@ -5,6 +5,7 @@ import helmet from 'helmet';
 import dotenv from 'dotenv';
 import expenseRoutes from './routes/expenses.js';
 import aiRoutes from './routes/ai.js';
+import authRoutes from './routes/auth.js';
 
 // Load environment variables
 dotenv.config();
@@ -15,9 +16,14 @@ const PORT = process.env.PORT || 3001;
 // Middleware
 app.use(helmet());
 app.use(cors({
+<<<<<<< HEAD
   origin: true, // Allow all origins for now - change in production
   credentials: true,
   optionsSuccessStatus: 200
+=======
+  origin: ['http://localhost:5173', 'http://localhost:5174', 'http://127.0.0.1:5173'], // Vite's default dev server
+  credentials: true
+>>>>>>> 4a28ad23c792a13546efc4702f64247808721edb
 }));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -38,6 +44,7 @@ mongoose.connect(mongoURI, {
 });
 
 // Routes
+app.use('/api/auth', authRoutes);
 app.use('/api/expenses', expenseRoutes);
 app.use('/api/ai', aiRoutes);
 

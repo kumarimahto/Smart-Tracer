@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { X, DollarSign, Calendar, Tag, FileText, CreditCard, Repeat } from 'lucide-react';
+import { X, IndianRupee, Calendar, Tag, FileText, CreditCard, Repeat } from 'lucide-react';
 import { useExpenses } from '../context/ExpenseContext';
 import { useNotifications } from '../context/NotificationContext';
 import { aiAPI } from '../services/api';
@@ -173,7 +173,7 @@ const ExpenseForm = ({ isOpen, onClose, expense = null, onSubmit }) => {
       <div className="expense-form-modal">
         <div className="expense-form-header">
           <h2>
-            <DollarSign size={24} />
+            <IndianRupee size={24} />
             {isEditing ? 'Edit Expense' : 'Add New Expense'}
           </h2>
           <button 
@@ -208,7 +208,7 @@ const ExpenseForm = ({ isOpen, onClose, expense = null, onSubmit }) => {
 
             <div className="form-group">
               <label htmlFor="amount">
-                <DollarSign size={16} />
+                <IndianRupee size={16} />
                 Amount (₹) *
               </label>
               <input

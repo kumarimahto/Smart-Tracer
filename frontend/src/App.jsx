@@ -1,18 +1,21 @@
 import React, { useState, useEffect } from 'react';
-import { Moon, Sun, Plus, BarChart3, List, Brain, Settings, DollarSign, Calendar, Zap, TrendingUp, Wallet } from 'lucide-react';
+import { Moon, Sun, Plus, BarChart3, List, Brain, Settings, IndianRupee, Calendar, Zap, TrendingUp, Wallet } from 'lucide-react';
 import { ThemeProvider, useTheme } from './context/ThemeContext';
 import { ExpenseProvider } from './context/ExpenseContext';
 import { NotificationProvider } from './context/NotificationContext';
+import { AuthProvider, useAuth } from './context/AuthContext';
 import ExpenseForm from './components/ExpenseForm';
 import ExpenseList from './components/ExpenseList';
 import Dashboard from './components/Dashboard';
 import AIInsights from './components/AIInsights';
 import NotificationPanel from './components/NotificationPanel';
+import AuthUI from './components/AuthUI';
 import { healthCheck } from './services/api';
 import './App.css';
 
 function AppContent() {
   const { isDarkMode, toggleTheme } = useTheme();
+  const { user, loading, logout } = useAuth();
   const [currentView, setCurrentView] = useState('dashboard');
   const [isExpenseFormOpen, setIsExpenseFormOpen] = useState(false);
   const [editingExpense, setEditingExpense] = useState(null);
@@ -36,6 +39,21 @@ function AppContent() {
     const interval = setInterval(checkServer, 30000);
     return () => clearInterval(interval);
   }, []);
+
+  // Show loading spinner while checking authentication
+  if (loading) {
+    return (
+      <div className="loading-container">
+        <div className="loading-spinner-large"></div>
+        <p>Loading Smart Tracer...</p>
+      </div>
+    );
+  }
+
+  // Show auth UI if user is not logged in
+  if (!user) {
+    return <AuthUI />;
+  }
 
   const handleEditExpense = (expense) => {
     setEditingExpense(expense);
@@ -97,6 +115,20 @@ function AppContent() {
         </div>
 
         <div className="header-right">
+          {/* User Profile */}
+          <div className="user-profile">
+            <div className="user-avatar">
+              {user?.initials}
+            </div>
+            <div className="user-info">
+              <span className="user-name">{user?.firstName} {user?.lastName}</span>
+              <span className="user-email">{user?.email}</span>
+            </div>
+            <button onClick={logout} className="logout-btn" title="Logout">
+              Logout
+            </button>
+          </div>
+          
           {/* Notifications */}
           <NotificationPanel />
           
@@ -188,11 +220,13 @@ function AppContent() {
 function App() {
   return (
     <ThemeProvider>
-      <ExpenseProvider>
+      <AuthProvider>
         <NotificationProvider>
-          <AppContent />
+          <ExpenseProvider>
+            <AppContent />
+          </ExpenseProvider>
         </NotificationProvider>
-      </ExpenseProvider>
+      </AuthProvider>
     </ThemeProvider>
   );
 }

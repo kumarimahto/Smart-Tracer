@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Edit2, Trash2, Calendar, Tag, CreditCard, DollarSign } from 'lucide-react';
+import { Edit2, Trash2, Calendar, Tag, CreditCard, IndianRupee } from 'lucide-react';
 import { useExpenses } from '../context/ExpenseContext';
 import { useNotifications } from '../context/NotificationContext';
 import { useTheme } from '../context/ThemeContext';

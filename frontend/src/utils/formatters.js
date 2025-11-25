@@ -6,20 +6,11 @@
  */
 export const formatCurrency = (amount, currency = 'INR') => {
   try {
-    if (currency === 'INR') {
-      // Use Indian number format
-      return `₹${amount.toLocaleString('en-IN', {
-        minimumFractionDigits: 0,
-        maximumFractionDigits: 2
-      })}`;
-    }
-    
-    return new Intl.NumberFormat('en-IN', {
-      style: 'currency',
-      currency: currency,
+    // Always use Indian Rupee format without $ symbol
+    return `₹${amount.toLocaleString('en-IN', {
       minimumFractionDigits: 0,
       maximumFractionDigits: 2
-    }).format(amount);
+    })}`;
   } catch (error) {
     console.error('Error formatting currency:', error);
     return `₹${amount}`;
