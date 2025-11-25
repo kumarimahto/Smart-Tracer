@@ -136,7 +136,7 @@ export const NotificationProvider = ({ children }) => {
         `⚠️ Daily Budget Warning: You're near your ₹${budgetSettings.dailyLimit.toLocaleString()} limit. Current spending: ₹${todaySpending.toLocaleString()}`,
         'warning'
       );
-    }
+    }https://docs.google.com/document/d/1Ik4fDkR6ZwTs0OK_3LtkRr6Ku8ldmXXIj6AVzv4-fWk/edit?usp=sharing
 
     // Check monthly limit
     if (budgetSettings.monthlyLimit && monthlySpending > budgetSettings.monthlyLimit) {
