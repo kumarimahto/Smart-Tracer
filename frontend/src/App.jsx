@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Moon, Sun, Plus, BarChart3, List, Brain, Settings, DollarSign, Calendar, Zap, TrendingUp, Wallet } from 'lucide-react';
+import { Moon, Sun, Plus, BarChart3, List, Brain, Settings, IndianRupee, Calendar, Zap, TrendingUp, Wallet } from 'lucide-react';
 import { ThemeProvider, useTheme } from './context/ThemeContext';
 import { ExpenseProvider } from './context/ExpenseContext';
 import { NotificationProvider } from './context/NotificationContext';

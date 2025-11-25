@@ -18,6 +18,7 @@ const NotificationPanel = () => {
     budgetSettings,
     markAsRead,
     markAllAsRead,
+    deleteNotification,
     clearAllNotifications,
     saveBudgetSettings
   } = useNotifications();
@@ -38,6 +39,27 @@ const NotificationPanel = () => {
       markAllAsRead();
     }
   };
+
+  // Handle ESC key to close panel
+  React.useEffect(() => {
+    const handleEscKey = (event) => {
+      if (event.key === 'Escape' && isOpen) {
+        setIsOpen(false);
+      }
+    };
+
+    if (isOpen) {
+      document.addEventListener('keydown', handleEscKey);
+      document.body.style.overflow = 'hidden'; // Prevent background scroll
+    } else {
+      document.body.style.overflow = 'unset';
+    }
+
+    return () => {
+      document.removeEventListener('keydown', handleEscKey);
+      document.body.style.overflow = 'unset';
+    };
+  }, [isOpen]);
 
   const formatTime = (timestamp) => {
     const date = new Date(timestamp);
@@ -88,16 +110,18 @@ const NotificationPanel = () => {
       </button>
 
       {isOpen && (
-        <div className="notification-panel">
-          <div className="notification-header">
-            <h3>Notifications</h3>
-            <div className="notification-actions">
-              <button
-                className="action-btn"
-                onClick={() => setShowSettings(!showSettings)}
-                title="Budget Settings"
-              >
-                <Settings size={16} />
+        <>
+          <div className="notification-backdrop" onClick={togglePanel}></div>
+          <div className="notification-panel">
+            <div className="notification-header">
+              <h3>Notifications</h3>
+              <div className="notification-actions">
+                <button
+                  className="action-btn"
+                  onClick={() => setShowSettings(!showSettings)}
+                  title="Budget Settings"
+                >
+                  <Settings size={16} />
               </button>
               <button
                 className="action-btn"
@@ -178,17 +202,29 @@ const NotificationPanel = () => {
                 <div
                   key={notification.id}
                   className={`notification-item ${notification.type} ${notification.read ? 'read' : 'unread'}`}
-                  onClick={() => markAsRead(notification.id)}
                 >
                   <div className="notification-icon">
                     {getNotificationIcon(notification.type)}
                   </div>
-                  <div className="notification-content">
+                  <div 
+                    className="notification-content"
+                    onClick={() => markAsRead(notification.id)}
+                  >
                     <p>{notification.message}</p>
                     <span className="notification-time">
                       {formatTime(notification.timestamp)}
                     </span>
                   </div>
+                  <button
+                    className="notification-delete-btn"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      deleteNotification(notification.id);
+                    }}
+                    title="Delete notification"
+                  >
+                    <X size={14} />
+                  </button>
                   {!notification.read && (
                     <div className="unread-indicator"></div>
                   )}
@@ -197,6 +233,7 @@ const NotificationPanel = () => {
             )}
           </div>
         </div>
+        </>
       )}
     </div>
   );

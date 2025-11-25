@@ -89,6 +89,16 @@ export const NotificationProvider = ({ children }) => {
     localStorage.setItem('notifications', JSON.stringify(updatedNotifications));
   };
 
+  // Delete individual notification
+  const deleteNotification = (id) => {
+    setNotifications(prev => prev.filter(notification => notification.id !== id));
+    
+    // Update localStorage
+    const savedNotifications = JSON.parse(localStorage.getItem('notifications') || '[]');
+    const updatedNotifications = savedNotifications.filter(notification => notification.id !== id);
+    localStorage.setItem('notifications', JSON.stringify(updatedNotifications));
+  };
+
   // Clear all notifications
   const clearAllNotifications = () => {
     setNotifications([]);
@@ -206,6 +216,7 @@ export const NotificationProvider = ({ children }) => {
     addNotification,
     markAsRead,
     markAllAsRead,
+    deleteNotification,
     clearAllNotifications,
     checkBudgetLimits,
     recheckBudgetAfterDelete,
