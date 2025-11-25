@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Brain, TrendingUp, Lightbulb, AlertTriangle, Calendar, DollarSign } from 'lucide-react';
+import { Brain, TrendingUp, Lightbulb, AlertTriangle, Calendar, IndianRupee } from 'lucide-react';
 import { aiAPI } from '../services/api';
 import { formatCurrency, getMonthName, getCurrentMonthRange } from '../utils/formatters';
 import './AIInsights.css';
@@ -130,7 +130,7 @@ const AIInsights = () => {
             <h3>Monthly Overview</h3>
             <div className="summary-stats">
               <div className="summary-stat">
-                <DollarSign size={20} />
+                <IndianRupee size={20} />
                 <span>Total Spent: {formatCurrency(expenseSummary.reduce((sum, exp) => sum + exp.totalAmount, 0))}</span>
               </div>
               <div className="summary-stat">
@@ -246,7 +246,7 @@ const AIInsights = () => {
                 <div className="opportunities-list">
                   {budgetingTips.savingsOpportunities.map((opportunity, index) => (
                     <div key={index} className="opportunity-item">
-                      <DollarSign size={16} />
+                      <IndianRupee size={16} />
                       <span>{opportunity}</span>
                     </div>
                   ))}

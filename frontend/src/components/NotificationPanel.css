@@ -45,17 +45,22 @@
 }
 
 .notification-panel {
-  position: absolute;
-  top: 100%;
-  right: 0;
-  width: 380px;
-  max-height: 500px;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 90vw;
+  max-width: 600px;
+  max-height: 85vh;
   background: var(--bg-primary);
   border: 1px solid var(--border-color);
-  border-radius: 12px;
+  border-radius: 16px;
   box-shadow: var(--shadow-xl);
   z-index: 1000;
   overflow: hidden;
+  animation: slideInScale 0.3s ease-out;
+  display: flex;
+  flex-direction: column;
 }
 
 .notification-header {
@@ -65,6 +70,7 @@
   padding: 16px 20px;
   border-bottom: 1px solid var(--border-color);
   background: var(--bg-secondary);
+  flex-shrink: 0;
 }
 
 .notification-header h3 {
@@ -107,6 +113,7 @@
   padding: 16px 20px;
   border-bottom: 1px solid var(--border-color);
   background: var(--bg-secondary);
+  flex-shrink: 0;
 }
 
 .budget-settings h4 {
@@ -163,8 +170,30 @@
 
 /* Notification List */
 .notification-list {
-  max-height: 320px;
+  max-height: 400px;
   overflow-y: auto;
+  flex: 1;
+  min-height: 200px;
+  scrollbar-width: thin;
+  scrollbar-color: var(--primary-color) var(--bg-secondary);
+}
+
+.notification-list::-webkit-scrollbar {
+  width: 6px;
+}
+
+.notification-list::-webkit-scrollbar-track {
+  background: var(--bg-secondary);
+  border-radius: 3px;
+}
+
+.notification-list::-webkit-scrollbar-thumb {
+  background: var(--primary-color);
+  border-radius: 3px;
+}
+
+.notification-list::-webkit-scrollbar-thumb:hover {
+  background: var(--primary-color-hover);
 }
 
 .no-notifications {
@@ -217,13 +246,14 @@
   border-left: 5px solid var(--primary-color);
 }
 
-.notification-item.unread::after {
-  content: '●';
+.unread-indicator {
   position: absolute;
-  top: 12px;
+  top: 16px;
   right: 16px;
-  color: var(--primary-color);
-  font-size: 12px;
+  width: 8px;
+  height: 8px;
+  background: var(--primary-color);
+  border-radius: 50%;
   animation: pulse 2s infinite;
 }
 
@@ -256,6 +286,9 @@
 .notification-content {
   flex: 1;
   min-width: 0;
+  cursor: pointer;
+  padding-right: 50px;
+  padding-bottom: 10px;
 }
 
 .notification-content p {
@@ -265,6 +298,34 @@
   line-height: 1.6;
   font-weight: 500;
   word-wrap: break-word;
+}
+
+.notification-delete-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 6px;
+  border-radius: 4px;
+  color: var(--text-secondary);
+  opacity: 0;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  bottom: 16px;
+  right: 16px;
+  z-index: 10;
+}
+
+.notification-item:hover .notification-delete-btn {
+  opacity: 1;
+}
+
+.notification-delete-btn:hover {
+  background: var(--error-bg);
+  color: var(--error-color);
+  transform: scale(1.1);
 }
 
 .notification-time {
@@ -342,9 +403,49 @@
   }
 }
 
+/* Animation for panel */
+@keyframes slideInScale {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.9);
+  }
+  100% {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+}
+
+/* Backdrop for modal effect */
+.notification-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 999;
+  backdrop-filter: blur(2px);
+}
+
+@media (max-width: 768px) {
+  .notification-panel {
+    width: 95vw;
+    max-height: 90vh;
+  }
+  
+  .notification-list {
+    max-height: 300px;
+  }
+}
+
 @media (max-width: 480px) {
   .notification-panel {
-    width: 280px;
+    width: 95vw;
+    max-height: 95vh;
+  }
+  
+  .notification-list {
+    max-height: 250px;
     right: -40px;
   }
 }
