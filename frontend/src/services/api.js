@@ -1,6 +1,10 @@
 import axios from 'axios';
 
-const API_BASE_URL = 'http://localhost:3001/api';
+// Use Render deployed backend URL
+const API_BASE_URL = 'https://smart-tracer.onrender.com/api';
+
+// Fallback to localhost for development
+// const API_BASE_URL = 'http://localhost:3001/api';
 
 // Create axios instance with default config
 const api = axios.create({
@@ -8,7 +12,7 @@ const api = axios.create({
   headers: {
     'Content-Type': 'application/json',
   },
-  timeout: 10000, // 10 seconds timeout
+  timeout: 30000, // 30 seconds timeout for Render (cold starts can be slow)
 });
 
 // Request interceptor for logging

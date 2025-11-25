@@ -7,7 +7,7 @@ import { expenseAPI } from '../services/api';
 import { formatCurrency, formatDate, getCurrentMonthRange } from '../utils/formatters';
 import './Dashboard.css';
 
-const Dashboard = ({ onEditExpense, onViewAllExpenses }) => {
+const Dashboard = ({ onEditExpense, onViewAllExpenses, onAddExpense }) => {
   const { isDarkMode } = useTheme();
   const { expenses } = useExpenses();
   const [dashboardData, setDashboardData] = useState(null);
@@ -43,7 +43,7 @@ const Dashboard = ({ onEditExpense, onViewAllExpenses }) => {
     };
 
     fetchDashboardData();
-  }, []);
+  }, [expenses]); // Re-fetch when expenses change
 
   // Create sample data for charts when no real data
   const createSampleData = () => {
@@ -138,32 +138,37 @@ const Dashboard = ({ onEditExpense, onViewAllExpenses }) => {
             </div>
           </div>
         </div>
-
-        <div className="stat-card quaternary">
-          <div className="stat-icon">
-            <DollarSign size={24} />
-          </div>
-          <div className="stat-content">
-            <h3>Daily Average</h3>
-            <div className="stat-value">
-              {formatCurrency((currentMonth.total || 0) / new Date().getDate())}
-            </div>
-            <div className="stat-subtitle">Based on current month</div>
-          </div>
-        </div>
       </div>
 
       {/* Charts Section */}
       <div className="charts-grid">
-        <div className="chart-card">
-          <div className="chart-header">
-            <h3>Expense Distribution</h3>
-            <p>Breakdown by category</p>
+        {expenses.length === 0 && (
+          <div className="empty-charts-state">
+            <div className="empty-state-content">
+              <div className="empty-state-icon">📊</div>
+              <h3>No Expense Data Yet</h3>
+              <p>Add your first expense to see beautiful charts and analytics</p>
+              <button 
+                onClick={onAddExpense}
+                className="add-first-expense-btn"
+              >
+                Add Your First Expense
+              </button>
+            </div>
           </div>
-          <div className="chart-container">
-            <CategoryChart expenses={chartExpenses} isDarkMode={isDarkMode} />
+        )}
+
+        {expenses.length > 0 && (
+          <div className="chart-card">
+            <div className="chart-header">
+              <h3>Expense Distribution</h3>
+              <p>Breakdown by category</p>
+            </div>
+            <div className="chart-container">
+              <CategoryChart expenses={chartExpenses} isDarkMode={isDarkMode} />
+            </div>
           </div>
-        </div>
+        )}
 
         {trends && trends.length > 0 && (
           <div className="chart-card">

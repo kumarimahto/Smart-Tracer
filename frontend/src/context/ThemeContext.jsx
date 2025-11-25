@@ -15,7 +15,7 @@ export const ThemeProvider = ({ children }) => {
 
   // Initialize theme from localStorage or system preference
   useEffect(() => {
-    const savedTheme = localStorage.getItem('smart-tracer-theme');
+    const savedTheme = localStorage.getItem('kharcha-mitra-theme');
     if (savedTheme) {
       setIsDarkMode(savedTheme === 'dark');
     } else {
@@ -28,7 +28,7 @@ export const ThemeProvider = ({ children }) => {
   // Apply theme to document
   useEffect(() => {
     document.documentElement.setAttribute('data-theme', isDarkMode ? 'dark' : 'light');
-    localStorage.setItem('smart-tracer-theme', isDarkMode ? 'dark' : 'light');
+    localStorage.setItem('kharcha-mitra-theme', isDarkMode ? 'dark' : 'light');
   }, [isDarkMode]);
 
   const toggleTheme = () => {

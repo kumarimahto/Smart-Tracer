@@ -1,11 +1,24 @@
-# Smart Expense Tracker with AI Insights
+# Kharcha Mitra - Smart Finance Management
 
 A comprehensive expense tracking application with AI-powered categorization and insights using Gemini AI.
+
+## 🌐 Live Demo
+
+- **Frontend**: Deploy to Netlify/Vercel using the `dist` folder
+- **Backend**: https://smart-tracer.onrender.com
+- **API Base URL**: https://smart-tracer.onrender.com/api
+
+## 🚀 Deployment Status
+
+- ✅ **Backend**: Successfully deployed on Render
+- ✅ **Database**: MongoDB Atlas cluster configured
+- ✅ **AI Service**: Gemini AI integrated and working
+- ✅ **Frontend**: Production build ready for deployment
 
 ## Project Structure
 
 ```
-SmartTracer/
+KharchaMitra/
 ├── frontend/          # React.js frontend application
 │   ├── src/
 │   ├── public/
@@ -24,16 +37,21 @@ SmartTracer/
 ## Features
 
 ### Must-Have Features ✅
-- ✅ Add daily expenses manually
+- ✅ Add daily expenses manually with AI categorization
 - ✅ Gemini AI to categorize expenses and generate monthly summary
+- ✅ Budget notification system with daily/monthly limits
 - ✅ Display expense distribution chart using Chart.js
 - ✅ Node.js backend for storing expense data in MongoDB
+- ✅ Real-time budget monitoring with alerts
+- ✅ Expense history management with edit/delete
 
-### Good-to-Have Features 🚧
+### Good-to-Have Features ✅
+- ✅ AI-based budgeting tips and insights
+- ✅ Dark mode UI with theme persistence
+- ✅ Responsive design for mobile and desktop
+- ✅ Advanced filtering and sorting options
 - 🚧 Export expense report as PDF
-- 🚧 AI-based budgeting tips
 - 🚧 Voice input for adding expenses
-- ✅ Dark mode UI
 
 ## Tech Stack
 
@@ -100,6 +118,45 @@ npm install
 ```bash
 npm run dev
 ```
+
+## 🚀 Deployment Guide
+
+### Backend Deployment (Render)
+
+1. **Already Deployed** ✅
+   - URL: https://smart-tracer.onrender.com
+   - API: https://smart-tracer.onrender.com/api
+   - Status: ✅ Online
+
+2. **Environment Variables** (configured on Render):
+   ```env
+   MONGODB_URI_CLUSTER=mongodb+srv://Expense:ruchikajal24@cluster0.vtt0jda.mongodb.net/smart-expense-tracker
+   GEMINI_API_KEY=AIzaSyBaxOAitbAzB2QD-n9a-wvh4v1Ci0GLnvM
+   NODE_ENV=production
+   ```
+
+### Frontend Deployment
+
+1. **Build Production Version**:
+   ```bash
+   cd frontend
+   npm run build
+   ```
+
+2. **Deploy to Netlify**:
+   - Upload the `dist` folder to Netlify
+   - Set build command: `npm run build`
+   - Set publish directory: `dist`
+
+3. **Deploy to Vercel**:
+   - Connect GitHub repo to Vercel
+   - Set framework preset: `Vite`
+   - Build command: `npm run build`
+   - Output directory: `dist`
+
+4. **Manual Deployment**:
+   - Serve locally: `npx serve dist -p 3000`
+   - Upload `dist` folder contents to any static hosting
 
 ## API Endpoints
 

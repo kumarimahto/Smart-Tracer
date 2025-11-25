@@ -24,6 +24,7 @@ export const ExpenseProvider = ({ children }) => {
 
   const [filters, setFilters] = useState({
     category: 'all',
+    month: '',
     startDate: '',
     endDate: '',
     sortBy: 'date',
@@ -77,14 +78,7 @@ export const ExpenseProvider = ({ children }) => {
       const response = await expenseAPI.create(expenseData);
       
       if (response.success) {
-        // Add new expense to local state immediately
-        setExpenses(prev => [response.data, ...prev]);
-        
-        // Update localStorage with new expense
-        const updatedExpenses = [response.data, ...expenses];
-        localStorage.setItem('expenses', JSON.stringify(updatedExpenses));
-        
-        // Refresh expenses list to get proper pagination
+        // Refresh expenses list to get latest data with proper pagination
         await fetchExpenses(pagination.currentPage);
         return { success: true, data: response.data };
       } else {
@@ -110,10 +104,8 @@ export const ExpenseProvider = ({ children }) => {
       const response = await expenseAPI.update(id, expenseData);
       
       if (response.success) {
-        // Update local state
-        setExpenses(prev => prev.map(exp => 
-          exp._id === id ? response.data : exp
-        ));
+        // Refresh expenses list to get latest data
+        await fetchExpenses(pagination.currentPage);
         return { success: true, data: response.data };
       } else {
         setError('Failed to update expense');

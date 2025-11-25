@@ -56,13 +56,13 @@ function AppContent() {
   const renderCurrentView = () => {
     switch (currentView) {
       case 'dashboard':
-        return <Dashboard onEditExpense={handleEditExpense} onViewAllExpenses={() => setCurrentView('expenses')} />;
+        return <Dashboard onEditExpense={handleEditExpense} onViewAllExpenses={() => setCurrentView('expenses')} onAddExpense={() => setIsExpenseFormOpen(true)} />;
       case 'expenses':
         return <ExpenseList onEditExpense={handleEditExpense} />;
       case 'insights':
         return <AIInsights />;
       default:
-        return <Dashboard onEditExpense={handleEditExpense} onViewAllExpenses={() => setCurrentView('expenses')} />;
+        return <Dashboard onEditExpense={handleEditExpense} onViewAllExpenses={() => setCurrentView('expenses')} onAddExpense={() => setIsExpenseFormOpen(true)} />;
     }
   };
 
@@ -77,7 +77,7 @@ function AppContent() {
               <div className="logo-secondary-icon">📊</div>
             </div>
             <div className="logo-text">
-              <h1>ExpenseTracker</h1>
+              <h1>Kharcha Mitra</h1>
               <span className="logo-subtitle">Smart Finance</span>
             </div>
           </div>

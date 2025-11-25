@@ -51,8 +51,50 @@ const ExpenseList = ({ onEditExpense }) => {
     'Gifts & Donations', 'Business', 'Other'
   ];
 
+  // Generate previous months list
+  const getPreviousMonths = () => {
+    const months = [];
+    const now = new Date();
+    
+    for (let i = 0; i < 12; i++) {
+      const date = new Date(now.getFullYear(), now.getMonth() - i, 1);
+      const monthYear = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}`;
+      const monthName = date.toLocaleDateString('en-US', { 
+        month: 'long', 
+        year: 'numeric' 
+      });
+      
+      months.push({
+        value: monthYear,
+        label: monthName
+      });
+    }
+    
+    return months;
+  };
+
   const handleFilterChange = (key, value) => {
-    updateFilters({ [key]: value });
+    // If month is selected, clear date filters and set month-specific dates
+    if (key === 'month' && value !== 'all') {
+      const [year, month] = value.split('-');
+      const startDate = new Date(parseInt(year), parseInt(month) - 1, 1);
+      const endDate = new Date(parseInt(year), parseInt(month), 0);
+      
+      updateFilters({ 
+        [key]: value,
+        startDate: startDate.toISOString().split('T')[0],
+        endDate: endDate.toISOString().split('T')[0]
+      });
+    } else if (key === 'month' && value === 'all') {
+      // Clear month filter and date filters
+      updateFilters({ 
+        month: '',
+        startDate: '',
+        endDate: ''
+      });
+    } else {
+      updateFilters({ [key]: value });
+    }
   };
 
   const handleDelete = async (id) => {
@@ -116,6 +158,22 @@ const ExpenseList = ({ onEditExpense }) => {
 
   return (
     <div className="expense-list-container">
+      {/* Active Month Indicator */}
+      {filters.month && filters.month !== 'all' && (
+        <div className="active-filter-indicator">
+          <span className="filter-badge">
+            📅 Showing expenses for: <strong>{getPreviousMonths().find(m => m.value === filters.month)?.label}</strong>
+          </span>
+          <button 
+            onClick={() => handleFilterChange('month', 'all')} 
+            className="clear-filter-btn"
+            title="Clear month filter"
+          >
+            ✕
+          </button>
+        </div>
+      )}
+
       {/* Filters */}
       <div className="expense-filters">
         <div className="filter-group">
@@ -128,6 +186,22 @@ const ExpenseList = ({ onEditExpense }) => {
             {categories.map(cat => (
               <option key={cat} value={cat}>
                 {cat === 'all' ? 'All Categories' : cat}
+              </option>
+            ))}
+          </select>
+        </div>
+
+        <div className="filter-group">
+          <label htmlFor="month-filter">Month:</label>
+          <select
+            id="month-filter"
+            value={filters.month || 'all'}
+            onChange={(e) => handleFilterChange('month', e.target.value)}
+          >
+            <option value="all">All Months</option>
+            {getPreviousMonths().map(month => (
+              <option key={month.value} value={month.value}>
+                {month.label}
               </option>
             ))}
           </select>

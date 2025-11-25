@@ -49,7 +49,8 @@ export const CategoryChart = ({ expenses, isDarkMode }) => {
         borderColor: isDarkMode ? '#2D3748' : '#FFFFFF',
         borderWidth: 2,
         hoverBorderWidth: 3,
-        hoverOffset: 4,
+        hoverOffset: 8,
+        cutout: '40%',
       },
     ],
   };
@@ -57,16 +58,25 @@ export const CategoryChart = ({ expenses, isDarkMode }) => {
   const options = {
     responsive: true,
     maintainAspectRatio: false,
+    layout: {
+      padding: {
+        top: 20,
+        bottom: 20,
+        left: 20,
+        right: 20
+      }
+    },
     plugins: {
       legend: {
         position: 'bottom',
         labels: {
           color: isDarkMode ? '#E2E8F0' : '#2D3748',
-          padding: 20,
+          padding: 15,
           usePointStyle: true,
           font: {
-            size: 12,
+            size: 11,
           },
+          boxWidth: 12,
         },
       },
       tooltip: {
@@ -237,6 +247,8 @@ export const CategoryBarChart = ({ summary, isDarkMode }) => {
         borderWidth: 1,
         borderRadius: 4,
         borderSkipped: false,
+        barThickness: 60,
+        maxBarThickness: 80,
       },
     ],
   };
@@ -244,6 +256,14 @@ export const CategoryBarChart = ({ summary, isDarkMode }) => {
   const options = {
     responsive: true,
     maintainAspectRatio: false,
+    layout: {
+      padding: {
+        top: 20,
+        bottom: 10,
+        left: 5,
+        right: 5
+      }
+    },
     plugins: {
       legend: {
         display: false,
@@ -267,6 +287,8 @@ export const CategoryBarChart = ({ summary, isDarkMode }) => {
     },
     scales: {
       x: {
+        categoryPercentage: 0.6,
+        barPercentage: 0.8,
         ticks: {
           color: isDarkMode ? '#A0AEC0' : '#4A5568',
           maxRotation: 45,

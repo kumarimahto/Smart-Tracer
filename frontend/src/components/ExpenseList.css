@@ -3,6 +3,62 @@
   padding: 20px;
 }
 
+/* Active Filter Indicator */
+.active-filter-indicator {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: linear-gradient(135deg, rgba(var(--primary-rgb), 0.1), rgba(var(--primary-rgb), 0.05));
+  border: 1px solid rgba(var(--primary-rgb), 0.2);
+  border-radius: 12px;
+  padding: 12px 16px;
+  margin-bottom: 20px;
+  animation: slideDown 0.3s ease-out;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.filter-badge {
+  color: var(--primary-color);
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.filter-badge strong {
+  color: var(--text-primary);
+  font-weight: 600;
+}
+
+.clear-filter-btn {
+  background: rgba(var(--primary-rgb), 0.1);
+  border: 1px solid rgba(var(--primary-rgb), 0.3);
+  color: var(--primary-color);
+  border-radius: 20px;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 12px;
+  transition: all 0.2s ease;
+}
+
+.clear-filter-btn:hover {
+  background: var(--primary-color);
+  color: white;
+  transform: scale(1.1);
+}
+
 .loading-spinner {
   display: flex;
   flex-direction: column;
@@ -94,6 +150,24 @@
 .filter-group input:focus {
   outline: none;
   border-color: var(--primary-color);
+}
+
+/* Month Filter Special Styling */
+#month-filter {
+  background: linear-gradient(135deg, var(--bg-primary) 0%, rgba(var(--primary-rgb), 0.05) 100%);
+  border: 2px solid var(--border-color);
+  font-weight: 500;
+}
+
+#month-filter:focus {
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 3px rgba(var(--primary-rgb), 0.1);
+}
+
+#month-filter option {
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  padding: 8px;
 }
 
 /* No Expenses State */
@@ -430,6 +504,17 @@
 @media (max-width: 768px) {
   .expense-list-container {
     padding: 16px;
+  }
+
+  .active-filter-indicator {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+    padding: 12px;
+  }
+
+  .clear-filter-btn {
+    align-self: flex-end;
   }
 
   .expense-filters {

@@ -1,7 +1,7 @@
 {
-  "name": "smart-tracer-backend",
+  "name": "kharcha-mitra-backend",
   "version": "1.0.0",
-  "description": "Backend API for Smart Expense Tracker with AI insights",
+  "description": "Backend API for Kharcha Mitra - Smart Finance Management with AI insights",
   "type": "module",
   "main": "server.js",
   "scripts": {
@@ -17,7 +17,7 @@
     "mongodb",
     "express"
   ],
-  "author": "Smart Tracer Team",
+  "author": "Kharcha Mitra Team",
   "license": "MIT",
   "dependencies": {
     "express": "^4.18.2",

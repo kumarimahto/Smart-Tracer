@@ -15,8 +15,9 @@ const PORT = process.env.PORT || 3001;
 // Middleware
 app.use(helmet());
 app.use(cors({
-  origin: ['http://localhost:5173', 'http://127.0.0.1:5173'], // Vite's default dev server
-  credentials: true
+  origin: true, // Allow all origins for now - change in production
+  credentials: true,
+  optionsSuccessStatus: 200
 }));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -44,7 +45,7 @@ app.use('/api/ai', aiRoutes);
 app.get('/api/health', (req, res) => {
   res.status(200).json({ 
     status: 'OK', 
-    message: 'Smart Expense Tracker API is running',
+    message: 'Kharcha Mitra API is running',
     timestamp: new Date().toISOString()
   });
 });
@@ -68,7 +69,7 @@ app.use('*', (req, res) => {
 
 // Start server
 app.listen(PORT, () => {
-  console.log(`🚀 Smart Expense Tracker API running on port ${PORT}`);
+  console.log(`🚀 Kharcha Mitra API running on port ${PORT}`);
   console.log(`📊 Frontend should be available at http://localhost:5173`);
   console.log(`🔗 API base URL: http://localhost:${PORT}/api`);
 });
