@@ -1,9 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Moon, Sun, Plus, BarChart3, List, Brain, Settings, IndianRupee, Calendar, Zap, TrendingUp, Wallet } from 'lucide-react';
-import { ThemeProvider, useTheme } from './context/ThemeContext';
-import { ExpenseProvider } from './context/ExpenseContext';
-import { NotificationProvider } from './context/NotificationContext';
-import { AuthProvider, useAuth } from './context/AuthContext';
+import { useTheme } from './context/ThemeContext';
+import { useAuth } from './context/AuthContext';
 import ExpenseForm from './components/ExpenseForm';
 import ExpenseList from './components/ExpenseList';
 import Dashboard from './components/Dashboard';
@@ -68,7 +66,7 @@ function AppContent() {
   const navigationItems = [
     { id: 'dashboard', label: 'Dashboard', icon: BarChart3 },
     { id: 'expenses', label: 'Expenses', icon: List },
-    { id: 'insights', label: 'AI Insights', icon: Brain },
+    { id: 'insights', label: 'SpendScanner', icon: Brain },
   ];
 
   const renderCurrentView = () => {
@@ -95,7 +93,7 @@ function AppContent() {
               <div className="logo-secondary-icon">📊</div>
             </div>
             <div className="logo-text">
-              <h1>ExpenseTracker</h1>
+              <h1>Kharch Tracker</h1>
               <span className="logo-subtitle">Smart Finance</span>
             </div>
           </div>
@@ -218,17 +216,7 @@ function AppContent() {
 
 // Main App Component with Providers
 function App() {
-  return (
-    <ThemeProvider>
-      <AuthProvider>
-        <NotificationProvider>
-          <ExpenseProvider>
-            <AppContent />
-          </ExpenseProvider>
-        </NotificationProvider>
-      </AuthProvider>
-    </ThemeProvider>
-  );
+  return <AppContent />;
 }
 
 export default App;

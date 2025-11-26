@@ -96,7 +96,7 @@ const AIInsights = () => {
         <div className="header-content">
           <h2>
             <Brain size={32} />
-            AI Insights & Recommendations
+            SpendScanner & Recommendations
           </h2>
           <p>Smart analysis of your spending patterns powered by Gemini AI</p>
         </div>
