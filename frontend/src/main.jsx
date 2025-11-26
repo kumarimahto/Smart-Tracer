@@ -4,13 +4,19 @@ import App from './App.jsx'
 import './index.css'
 import { ThemeProvider } from './context/ThemeContext.jsx'
 import { ExpenseProvider } from './context/ExpenseContext.jsx'
+import { AuthProvider } from './context/AuthContext.jsx'
+import { NotificationProvider } from './context/NotificationContext.jsx'
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
-    <ThemeProvider>
-      <ExpenseProvider>
-        <App />
-      </ExpenseProvider>
-    </ThemeProvider>
+    <AuthProvider>
+      <ThemeProvider>
+        <ExpenseProvider>
+          <NotificationProvider>
+            <App />
+          </NotificationProvider>
+        </ExpenseProvider>
+      </ThemeProvider>
+    </AuthProvider>
   </React.StrictMode>,
 )
