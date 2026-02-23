@@ -13,18 +13,29 @@ dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 3001;
 
-// Middleware
+/* ===============================
+   SECURITY & MIDDLEWARE
+================================= */
+
 app.use(helmet());
+
+// ✅ Proper CORS configuration for production
 app.use(cors({
-  origin: true, // Allow all origins for now - change in production
-  credentials: true,
-  optionsSuccessStatus: 200
+  origin: [
+    "http://localhost:5173", // local development
+    "https://smart-tracer-uzp.vercel.app" // production frontend
+  ],
+  methods: ["GET", "POST", "PUT", "DELETE"],
+  credentials: true
 }));
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Connect to MongoDB
+/* ===============================
+   DATABASE CONNECTION
+================================= */
+
 const mongoURI =
   process.env.MONGODB_URI_CLUSTER ||
   process.env.MONGODB_URI ||
@@ -42,12 +53,15 @@ mongoose.connect(mongoURI)
     console.error('❌ MongoDB connection error:', error.message);
   });
 
-// Routes
+/* ===============================
+   ROUTES
+================================= */
+
 app.use('/api/auth', authRoutes);
 app.use('/api/expenses', expenseRoutes);
 app.use('/api/ai', aiRoutes);
 
-// Health check endpoint
+// ✅ Health check endpoint
 app.get('/api/health', (req, res) => {
   res.status(200).json({
     status: 'OK',
@@ -56,7 +70,11 @@ app.get('/api/health', (req, res) => {
   });
 });
 
-// Error handling middleware
+/* ===============================
+   ERROR HANDLING
+================================= */
+
+// Global error handler
 app.use((err, req, res, next) => {
   console.error('Server Error:', err.stack);
   res.status(500).json({
@@ -73,11 +91,14 @@ app.use('*', (req, res) => {
   });
 });
 
-// Start server
+/* ===============================
+   START SERVER
+================================= */
+
 app.listen(PORT, () => {
   console.log(`🚀 Kharcha Mitra API running on port ${PORT}`);
-  console.log(`📊 Frontend should be available at http://localhost:5173`);
-  console.log(`🔗 API base URL: http://localhost:${PORT}/api`);
+  console.log(`🌍 Environment: ${process.env.NODE_ENV}`);
+  console.log(`🔗 API Base URL: https://smart-tracer-1.onrender.com/api`);
 });
 
 export default app;
