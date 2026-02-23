@@ -35,12 +35,10 @@ const NotificationPanel = () => {
   const togglePanel = () => {
     setIsOpen(!isOpen);
     if (!isOpen && unreadCount > 0) {
-      // Mark all as read when opening panel
       markAllAsRead();
     }
   };
 
-  // Handle ESC key to close panel
   React.useEffect(() => {
     const handleEscKey = (event) => {
       if (event.key === 'Escape' && isOpen) {

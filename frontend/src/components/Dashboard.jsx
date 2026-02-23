@@ -196,8 +196,6 @@ const Dashboard = ({ onEditExpense, onViewAllExpenses, onAddExpense }) => {
             </div>
           </div>
         </div>
-<<<<<<< HEAD
-=======
 
         <div className="stat-card quaternary">
           <div className="stat-icon">
@@ -252,7 +250,6 @@ const Dashboard = ({ onEditExpense, onViewAllExpenses, onAddExpense }) => {
             <div className="stat-subtitle">{getPeriodInfo(selectedPeriod).subtitle}</div>
           </div>
         </div>
->>>>>>> 4a28ad23c792a13546efc4702f64247808721edb
       </div>
 
       {/* Charts Section */}

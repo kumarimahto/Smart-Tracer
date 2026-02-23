@@ -96,10 +96,10 @@ const BudgetManager = () => {
   };
 
   const getProgressColor = (percentage) => {
-    if (percentage >= 90) return '#ef4444'; // red
-    if (percentage >= 75) return '#f97316'; // orange
-    if (percentage >= 50) return '#eab308'; // yellow
-    return '#22c55e'; // green
+    if (percentage >= 90) return '#ef4444'; 
+    if (percentage >= 75) return '#f97316'; 
+    if (percentage >= 50) return '#eab308'; 
+    return '#22c55e'; 
   };
 
   return (

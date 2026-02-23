@@ -16,32 +16,31 @@ const PORT = process.env.PORT || 3001;
 // Middleware
 app.use(helmet());
 app.use(cors({
-<<<<<<< HEAD
   origin: true, // Allow all origins for now - change in production
   credentials: true,
   optionsSuccessStatus: 200
-=======
-  origin: ['http://localhost:5173', 'http://localhost:5174', 'http://127.0.0.1:5173'], // Vite's default dev server
-  credentials: true
->>>>>>> 4a28ad23c792a13546efc4702f64247808721edb
 }));
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // Connect to MongoDB
-const mongoURI = process.env.MONGODB_URI_CLUSTER || process.env.MONGODB_URI || 'mongodb://localhost:27017/smart-expense-tracker';
+const mongoURI =
+  process.env.MONGODB_URI_CLUSTER ||
+  process.env.MONGODB_URI ||
+  'mongodb://localhost:27017/smart-expense-tracker';
+
 const usingCluster = !!process.env.MONGODB_URI_CLUSTER;
 
-mongoose.connect(mongoURI, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-})
-.then(() => {
-  console.log(`✅ Connected to MongoDB (${usingCluster ? 'cluster' : process.env.MONGODB_URI ? 'env' : 'local'})`);
-})
-.catch((error) => {
-  console.error('❌ MongoDB connection error:', error.message);
-});
+mongoose.connect(mongoURI)
+  .then(() => {
+    console.log(
+      `✅ Connected to MongoDB (${usingCluster ? 'cluster' : process.env.MONGODB_URI ? 'env' : 'local'})`
+    );
+  })
+  .catch((error) => {
+    console.error('❌ MongoDB connection error:', error.message);
+  });
 
 // Routes
 app.use('/api/auth', authRoutes);
@@ -50,8 +49,8 @@ app.use('/api/ai', aiRoutes);
 
 // Health check endpoint
 app.get('/api/health', (req, res) => {
-  res.status(200).json({ 
-    status: 'OK', 
+  res.status(200).json({
+    status: 'OK',
     message: 'Kharcha Mitra API is running',
     timestamp: new Date().toISOString()
   });
