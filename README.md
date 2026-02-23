@@ -93,7 +93,7 @@ Create `.env` file with:
 PORT=3001
 MONGODB_URI=mongodb://localhost:27017/smart-expense-tracker
 MONGODB_URI_CLUSTER=mongodb+srv://Expense:<password>@cluster0.vtt0jda.mongodb.net/smart-expense-tracker
-GEMINI_API_KEY=AIzaSyBaxOAitbAzB2QD-n9a-wvh4v1Ci0GLnvM
+GEMINI_API_KEY=
 NODE_ENV=development
 ```
 
