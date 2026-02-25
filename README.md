@@ -90,11 +90,7 @@ npm install
 3. Configure environment variables:
 Create `.env` file with:
 ```env
-PORT=3001
-MONGODB_URI=mongodb://localhost:27017/smart-expense-tracker
-MONGODB_URI_CLUSTER=mongodb+srv://Expense:<password>@cluster0.vtt0jda.mongodb.net/smart-expense-tracker
-GEMINI_API_KEY=
-NODE_ENV=development
+
 ```
 
 4. Start backend server:
