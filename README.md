@@ -129,10 +129,7 @@ npm run dev
    - Status: ✅ Online
 
 2. **Environment Variables** (configured on Render):
-   ```env
-   MONGODB_URI_CLUSTER=mongodb+srv://Expense:ruchikajal24@cluster0.vtt0jda.mongodb.net/smart-expense-tracker
-   GEMINI_API_KEY=AIzaSyBaxOAitbAzB2QD-n9a-wvh4v1Ci0GLnvM
-   NODE_ENV=production
+
    ```
 
 ### Frontend Deployment
