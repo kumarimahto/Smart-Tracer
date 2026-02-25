@@ -145,7 +145,7 @@ router.post('/login', [
 router.get('/verify', async (req, res) => {
   try {
     const token = req.header('Authorization')?.replace('Bearer ', '');
-    
+
     if (!token) {
       return res.status(401).json({
         success: false,
@@ -155,7 +155,7 @@ router.get('/verify', async (req, res) => {
 
     const decoded = jwt.verify(token, JWT_SECRET);
     const user = await User.findById(decoded.userId).select('-password');
-    
+
     if (!user) {
       return res.status(401).json({
         success: false,

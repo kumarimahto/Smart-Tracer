@@ -1,11 +1,12 @@
-import React, { createContext, useContext, useState, useEffect } from 'react';
+import React, { createContext, useContext, useState, useEffect } from "react";
+import api from "../services/api"; // 👈 IMPORTANT
 
 const AuthContext = createContext();
 
 export const useAuth = () => {
   const context = useContext(AuthContext);
   if (!context) {
-    throw new Error('useAuth must be used within an AuthProvider');
+    throw new Error("useAuth must be used within an AuthProvider");
   }
   return context;
 };
@@ -14,35 +15,30 @@ export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  // Check if user is logged in on app start
+  // Check token on app start
   useEffect(() => {
-    const token = localStorage.getItem('token');
+    const token = localStorage.getItem("token");
     if (token) {
-      verifyToken(token);
+      verifyToken();
     } else {
       setLoading(false);
     }
   }, []);
 
-  const verifyToken = async (token) => {
+  const verifyToken = async () => {
     try {
-      const response = await fetch('http://localhost:3001/api/auth/verify', {
-        method: 'GET',
+      const token = localStorage.getItem("token");
+
+      const response = await api.get("/auth/verify", {
         headers: {
-          'Authorization': `Bearer ${token}`,
-          'Content-Type': 'application/json'
-        }
+          Authorization: `Bearer ${token}`,
+        },
       });
 
-      if (response.ok) {
-        const data = await response.json();
-        setUser(data.user);
-      } else {
-        localStorage.removeItem('token');
-      }
+      setUser(response.data.user);
     } catch (error) {
-      console.error('Token verification failed:', error);
-      localStorage.removeItem('token');
+      console.error("Token verification failed:", error);
+      localStorage.removeItem("token");
     } finally {
       setLoading(false);
     }
@@ -50,66 +46,55 @@ export const AuthProvider = ({ children }) => {
 
   const login = async (email, password) => {
     try {
-      const response = await fetch('http://localhost:3001/api/auth/login', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ email, password })
+      const response = await api.post("/auth/login", {
+        email,
+        password,
       });
 
-      const data = await response.json();
-
-      if (data.success) {
-        localStorage.setItem('token', data.token);
-        setUser(data.user);
-        return { success: true, message: data.message };
-      } else {
-        return { success: false, message: data.message };
+      if (response.data.success) {
+        localStorage.setItem("token", response.data.token);
+        setUser(response.data.user);
+        return { success: true, message: response.data.message };
       }
+
+      return { success: false, message: response.data.message };
     } catch (error) {
-      console.error('Login error:', error);
-      return { success: false, message: 'Network error occurred' };
+      console.error("Login error:", error);
+      return { success: false, message: "Network error occurred" };
     }
   };
 
   const register = async (userData) => {
     try {
-      const response = await fetch('http://localhost:3001/api/auth/register', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(userData)
-      });
+      const response = await api.post("/auth/register", userData);
 
-      const data = await response.json();
-
-      if (data.success) {
-        localStorage.setItem('token', data.token);
-        setUser(data.user);
-        return { success: true, message: data.message };
-      } else {
-        return { success: false, message: data.message, errors: data.errors };
+      if (response.data.success) {
+        localStorage.setItem("token", response.data.token);
+        setUser(response.data.user);
+        return { success: true, message: response.data.message };
       }
+
+      return {
+        success: false,
+        message: response.data.message,
+        errors: response.data.errors,
+      };
     } catch (error) {
-      console.error('Registration error:', error);
-      return { success: false, message: 'Network error occurred' };
+      console.error("Registration error:", error);
+      return { success: false, message: "Network error occurred" };
     }
   };
 
   const logout = () => {
-    localStorage.removeItem('token');
+    localStorage.removeItem("token");
     setUser(null);
   };
 
-  const value = {
-    user,
-    login,
-    register,
-    logout,
-    loading
-  };
-
-  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
+  return (
+    <AuthContext.Provider
+      value={{ user, login, register, logout, loading }}
+    >
+      {children}
+    </AuthContext.Provider>
+  );
 };
