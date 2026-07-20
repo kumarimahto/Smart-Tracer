@@ -449,3 +449,47 @@
     right: -40px;
   }
 }
+
+.notification-bell {
+  min-width: 44px;   /* touch-friendly */
+  min-height: 44px;
+  position: relative;
+  z-index: 1001;     /* panel ke upar bhi visible rahe */
+}
+
+.notification-bell svg {
+  width: 22px;
+  height: 22px;
+}
+
+/* Mobile responsive */
+@media (max-width: 768px) {
+  .notification-bell {
+    padding: 10px;
+  }
+
+  .notification-bell svg {
+    width: 20px;
+    height: 20px;
+  }
+
+  .notification-badge {
+    top: 4px;
+    right: 4px;
+    font-size: 0.6rem;
+    min-width: 16px;
+    height: 16px;
+  }
+}
+
+/* Extra small devices */
+@media (max-width: 480px) {
+  .notification-bell {
+    padding: 8px;
+  }
+
+  .notification-bell svg {
+    width: 18px;
+    height: 18px;
+  }
+}
