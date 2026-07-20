@@ -21,6 +21,12 @@ function AppContent() {
   const [editingExpense, setEditingExpense] = useState(null);
   const [serverStatus, setServerStatus] = useState({ isOnline: null, checking: true });
 
+  const [isProfileOpen, setIsProfileOpen] = useState(false);
+const [profileImage, setProfileImage] = useState(null);
+const [previewImage, setPreviewImage] = useState(null);
+const [firstName, setFirstName] = useState(user?.firstName || '');
+const [lastName, setLastName] = useState(user?.lastName || '');
+
   // Check server health on mount
   useEffect(() => {
     const checkServer = async () => {
@@ -39,6 +45,19 @@ function AppContent() {
     const interval = setInterval(checkServer, 30000);
     return () => clearInterval(interval);
   }, []);
+
+ useEffect(() => {
+  if (user?.email) {
+    const key = `profileImage_${user.email}`;
+    const savedImage = localStorage.getItem(key);
+
+    if (savedImage) {
+      setPreviewImage(savedImage);
+    } else {
+      setPreviewImage(null); // reset for new user
+    }
+  }
+}, [user]);
 
   // Show loading spinner while checking authentication
   if (loading) {
@@ -71,6 +90,37 @@ function AppContent() {
     { id: 'insights', label: 'AI Insights', icon: Brain },
   ];
 
+
+const handleImageChange = (e) => {
+  const file = e.target.files[0];
+  if (file) {
+    const reader = new FileReader();
+
+    reader.onloadend = () => {
+      const base64 = reader.result;
+
+      setPreviewImage(base64);
+
+      // ✅ user specific key
+      const key = `profileImage_${user.email}`;
+      localStorage.setItem(key, base64);
+    };
+
+    reader.readAsDataURL(file);
+  }
+};
+
+const handleRemoveImage = () => {
+  setPreviewImage(null);
+  setProfileImage(null);
+
+  const key = `profileImage_${user.email}`;
+  localStorage.removeItem(key);
+};
+const handleSaveProfile = () => {
+  console.log("Updated:", { firstName, lastName, profileImage });
+  setIsProfileOpen(false);
+};
   const renderCurrentView = () => {
     switch (currentView) {
       case 'dashboard':
@@ -117,17 +167,28 @@ function AppContent() {
         <div className="header-right">
           {/* User Profile */}
           <div className="user-profile">
-            <div className="user-avatar">
-              {user?.initials}
-            </div>
-            <div className="user-info">
-              <span className="user-name">{user?.firstName} {user?.lastName}</span>
-              <span className="user-email">{user?.email}</span>
-            </div>
-            <button onClick={logout} className="logout-btn" title="Logout">
-              Logout
-            </button>
-          </div>
+  
+  <div className="user-avatar" onClick={() => setIsProfileOpen(true)}>
+  {previewImage ? (
+    <img
+      src={previewImage}
+      alt="avatar"
+      style={{ width: '100%', height: '100%', borderRadius: '50%' }}
+    />
+  ) : (
+    user?.initials
+  )}
+</div>
+
+  <div className="user-info">
+    <span className="user-name">{firstName} {lastName}</span>
+    <span className="user-email">{user?.email}</span>
+  </div>
+
+  <button onClick={logout} className="logout-btn" title="Logout">
+    Logout
+  </button>
+</div>
           
           {/* Notifications */}
           <NotificationPanel />
@@ -212,9 +273,50 @@ function AppContent() {
           console.log('Expense saved successfully');
         }}
       />
+
+      {isProfileOpen && (
+  <div className="profile-modal">
+    <div className="profile-box">
+      <h3 className="profile-title">Edit Profile</h3>
+
+      <input type="file" className="file-input" onChange={handleImageChange} />
+       {previewImage && (
+  <button className="remove-btn" onClick={handleRemoveImage}>
+    Remove Photo
+  </button>
+)}
+      <input
+        type="text"
+        className="profile-input"
+        value={firstName}
+        onChange={(e) => setFirstName(e.target.value)}
+        placeholder="First Name"
+      />
+
+      <input
+        type="text"
+        className="profile-input"
+        value={lastName}
+        onChange={(e) => setLastName(e.target.value)}
+        placeholder="Last Name"
+      />
+
+      <div className="profile-actions">
+        <button className="save-btn" onClick={handleSaveProfile}>
+          Save
+        </button>
+        <button className="cancel-btn" onClick={() => setIsProfileOpen(false)}>
+          Cancel
+        </button>
+      </div>
+    </div>
+  </div>
+)}
     </div>
   );
 }
+
+
 
 // Main App Component with Providers
 function App() {
