@@ -1,11 +1,16 @@
 import axios from 'axios';
 
 // Auto detect environment
+// const API_BASE_URL =
+//   import.meta.env.MODE === "development"
+//     ? "http://localhost:3001/api"
+//     : "https://smart-tracer-1.onrender.com/api";
+
 const API_BASE_URL =
   import.meta.env.MODE === "development"
     ? "http://localhost:3001/api"
-    : "https://smart-tracer-1.onrender.com/api";
-
+    : "https://smart-tracer-2.onrender.com/api";
+    
 // Create axios instance
 const api = axios.create({
   baseURL: API_BASE_URL,

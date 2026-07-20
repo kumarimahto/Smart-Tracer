@@ -3,14 +3,16 @@ import mongoose from 'mongoose';
 import cors from 'cors';
 import helmet from 'helmet';
 import dotenv from 'dotenv';
+
+dotenv.config();
+
+console.log("JWT_SECRET:", process.env.JWT_SECRET);
+
 import expenseRoutes from './routes/expenses.js';
 import aiRoutes from './routes/ai.js';
 import authRoutes from './routes/auth.js';
 
-console.log("JWT_SECRET:", process.env.JWT_SECRET);
 
-// Load environment variables
-dotenv.config();
 
 const app = express();
 const PORT = process.env.PORT || 3001;
@@ -100,7 +102,8 @@ app.use('*', (req, res) => {
 app.listen(PORT, () => {
   console.log(`🚀 Kharcha Mitra API running on port ${PORT}`);
   console.log(`🌍 Environment: ${process.env.NODE_ENV}`);
-  console.log(`🔗 API Base URL: https://smart-tracer-1.onrender.com/api`);
+  // console.log(`🔗 API Base URL: https://smart-tracer-1.onrender.com/api`);
+  console.log(`🔗 API Base URL: https://smart-tracer-2.onrender.com/api`);
 });
 
 export default app;
