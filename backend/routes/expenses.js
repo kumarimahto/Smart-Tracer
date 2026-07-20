@@ -3,7 +3,10 @@ import Expense from '../models/Expense.js';
 
 const router = express.Router();
 
-// GET /api/expenses - Get all expenses with optional filters
+import { authMiddleware } from '../middleware/auth.js';
+
+router.use(authMiddleware);
+
 router.get('/', async (req, res) => {
   try {
     const {
@@ -17,7 +20,9 @@ router.get('/', async (req, res) => {
     } = req.query;
 
     // Build query object
-    const query = {};
+   const query = {
+  userId: req.user.userId   // 🔥 ADD THIS LINE
+};
     
     if (category && category !== 'all') {
       query.category = category;
@@ -76,8 +81,10 @@ router.get('/', async (req, res) => {
 // GET /api/expenses/:id - Get single expense
 router.get('/:id', async (req, res) => {
   try {
-    const expense = await Expense.findById(req.params.id);
-    
+    const expense = await Expense.findOne({
+  _id: req.params.id,
+  userId: req.user.userId
+});
     if (!expense) {
       return res.status(404).json({
         success: false,
@@ -103,7 +110,7 @@ router.get('/:id', async (req, res) => {
 router.post('/', async (req, res) => {
   try {
     const expenseData = req.body;
-    
+
     // Validate required fields
     if (!expenseData.title || !expenseData.amount) {
       return res.status(400).json({
@@ -112,7 +119,12 @@ router.post('/', async (req, res) => {
       });
     }
 
-    const expense = new Expense(expenseData);
+    // ✅ 👇 YAHAN MAIN FIX HAI
+    const expense = new Expense({
+      ...expenseData,
+      userId: req.user.userId   // 🔥 ADD THIS LINE
+    });
+
     const savedExpense = await expense.save();
 
     res.status(201).json({
@@ -120,10 +132,10 @@ router.post('/', async (req, res) => {
       message: 'Expense created successfully',
       data: savedExpense
     });
+
   } catch (error) {
     console.error('Error creating expense:', error);
-    
-    // Handle validation errors
+
     if (error.name === 'ValidationError') {
       const validationErrors = Object.values(error.errors).map(err => err.message);
       return res.status(400).json({
@@ -140,19 +152,16 @@ router.post('/', async (req, res) => {
     });
   }
 });
-
 // PUT /api/expenses/:id - Update expense
 router.put('/:id', async (req, res) => {
   try {
-    const expense = await Expense.findByIdAndUpdate(
-      req.params.id,
-      req.body,
-      { 
-        new: true, 
-        runValidators: true 
-      }
-    );
+   
 
+    const expense = await Expense.findOneAndUpdate(
+  { _id: req.params.id, userId: req.user.userId },
+  req.body,
+  { new: true, runValidators: true }
+);
     if (!expense) {
       return res.status(404).json({
         success: false,
@@ -189,8 +198,10 @@ router.put('/:id', async (req, res) => {
 // DELETE /api/expenses/:id - Delete expense
 router.delete('/:id', async (req, res) => {
   try {
-    const expense = await Expense.findByIdAndDelete(req.params.id);
-
+       const expense = await Expense.findOneAndDelete({
+          _id: req.params.id,
+          userId: req.user.userId
+         });
     if (!expense) {
       return res.status(404).json({
         success: false,
@@ -217,8 +228,11 @@ router.delete('/:id', async (req, res) => {
 router.get('/summary/monthly/:year/:month', async (req, res) => {
   try {
     const { year, month } = req.params;
-    const summary = await Expense.getMonthlySummary(parseInt(year), parseInt(month));
-    
+const summary = await Expense.getMonthlySummary(
+  parseInt(year),
+  parseInt(month),
+  req.user.userId   // 🔥 ADD THIS
+);    
     // Calculate total
     const totalAmount = summary.reduce((sum, item) => sum + item.totalAmount, 0);
     const totalTransactions = summary.reduce((sum, item) => sum + item.count, 0);
@@ -251,8 +265,10 @@ router.get('/summary/monthly/:year/:month', async (req, res) => {
 router.get('/trends/spending', async (req, res) => {
   try {
     const { months = 6 } = req.query;
-    const trends = await Expense.getSpendingTrends(parseInt(months));
-
+const trends = await Expense.getSpendingTrends(
+  parseInt(months),
+  req.user.userId   // 🔥 ADD THIS
+);
     res.status(200).json({
       success: true,
       data: trends
@@ -275,17 +291,25 @@ router.get('/analytics/dashboard', async (req, res) => {
     const currentYear = currentDate.getFullYear();
     
     // Get current month summary
-    const currentMonthSummary = await Expense.getMonthlySummary(currentYear, currentMonth);
-    
+const currentMonthSummary = await Expense.getMonthlySummary(
+  currentYear,
+  currentMonth,
+  req.user.userId   // 🔥 ADD
+);    
     // Get last month summary for comparison
     const lastMonth = currentMonth === 1 ? 12 : currentMonth - 1;
     const lastMonthYear = currentMonth === 1 ? currentYear - 1 : currentYear;
-    const lastMonthSummary = await Expense.getMonthlySummary(lastMonthYear, lastMonth);
-    
+const lastMonthSummary = await Expense.getMonthlySummary(
+  lastMonthYear,
+  lastMonth,
+  req.user.userId   // 🔥 ADD
+);    
     // Get recent expenses (last 10)
-    const recentExpenses = await Expense.find()
-      .sort({ createdAt: -1 })
-      .limit(10);
+   const recentExpenses = await Expense.find({
+  userId: req.user.userId
+})
+.sort({ createdAt: -1 })
+.limit(10);
     
     // Calculate totals
     const currentMonthTotal = currentMonthSummary.reduce((sum, item) => sum + item.totalAmount, 0);

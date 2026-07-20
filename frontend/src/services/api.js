@@ -18,13 +18,17 @@ const api = axios.create({
 // Request interceptor
 api.interceptors.request.use(
   (config) => {
+    const token = localStorage.getItem("token");
+
+    // 🔥 THIS IS THE FIX
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
+    }
+
     console.log(`🔄 ${config.method?.toUpperCase()} → ${API_BASE_URL}${config.url}`);
     return config;
-  },
-  (error) => {
-    console.error("❌ Request Error:", error);
-    return Promise.reject(error);
   }
+  
 );
 
 // Response interceptor

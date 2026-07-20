@@ -7,6 +7,8 @@ import expenseRoutes from './routes/expenses.js';
 import aiRoutes from './routes/ai.js';
 import authRoutes from './routes/auth.js';
 
+console.log("JWT_SECRET:", process.env.JWT_SECRET);
+
 // Load environment variables
 dotenv.config();
 

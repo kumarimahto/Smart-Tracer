@@ -12,6 +12,11 @@ const expenseSchema = new mongoose.Schema({
     required: [true, 'Amount is required'],
     min: [0.01, 'Amount must be greater than 0']
   },
+  userId: {
+  type: mongoose.Schema.Types.ObjectId,
+  ref: 'User',
+  required: true
+},
   category: {
     type: String,
     required: [true, 'Category is required'],
@@ -120,13 +125,14 @@ expenseSchema.statics.getByDateRange = function(startDate, endDate) {
 };
 
 // Static method to get monthly summary
-expenseSchema.statics.getMonthlySummary = function(year, month) {
+expenseSchema.statics.getMonthlySummary = function(year, month, userId) {
   const startDate = new Date(year, month - 1, 1);
   const endDate = new Date(year, month, 0, 23, 59, 59);
   
   return this.aggregate([
     {
       $match: {
+          userId: new mongoose.Types.ObjectId(userId), 
         date: { $gte: startDate, $lte: endDate }
       }
     },
@@ -145,13 +151,14 @@ expenseSchema.statics.getMonthlySummary = function(year, month) {
 };
 
 // Static method to get spending trends
-expenseSchema.statics.getSpendingTrends = function(months = 6) {
+expenseSchema.statics.getSpendingTrends = function(months = 6, userId) {
   const startDate = new Date();
   startDate.setMonth(startDate.getMonth() - months);
   
   return this.aggregate([
     {
       $match: {
+        userId: new mongoose.Types.ObjectId(userId),
         date: { $gte: startDate }
       }
     },
