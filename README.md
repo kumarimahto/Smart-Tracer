@@ -5,8 +5,9 @@ A comprehensive expense tracking application with AI-powered categorization and 
 ## 🌐 Live Demo
 
 - **Frontend**: Deploy to Netlify/Vercel using the `dist` folder
-- **Backend**: https://smart-tracer.onrender.com
+- **Backend**: https://smart-tracer-2.onrender.com
 - **API Base URL**: https://smart-tracer.onrender.com/api
+- Live - https://smart-tracer-uzp.vercel.app/
 
 ## 🚀 Deployment Status
 
