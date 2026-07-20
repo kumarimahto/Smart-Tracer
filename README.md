@@ -95,7 +95,7 @@ Create `.env` file with:
 
 4. Start backend server:
 ```bash
-npm run dev
+node server.js
 ```
 
 ### Frontend Setup
