@@ -276,40 +276,53 @@ const handleSaveProfile = () => {
 
       {isProfileOpen && (
   <div className="profile-modal">
-    <div className="profile-box">
-      <h3 className="profile-title">Edit Profile</h3>
+   <div className="profile-box">
+  
+  <div className="profile-header">
+    <h3 className="profile-title">Edit Profile</h3>
 
-      <input type="file" className="file-input" onChange={handleImageChange} />
-       {previewImage && (
-  <button className="remove-btn" onClick={handleRemoveImage}>
-    Remove Photo
-  </button>
-)}
-      <input
-        type="text"
-        className="profile-input"
-        value={firstName}
-        onChange={(e) => setFirstName(e.target.value)}
-        placeholder="First Name"
-      />
+    <span 
+      className="close-icon"
+      onClick={() => setIsProfileOpen(false)}
+    >
+      ✖
+    </span>
+  </div>
 
-      <input
-        type="text"
-        className="profile-input"
-        value={lastName}
-        onChange={(e) => setLastName(e.target.value)}
-        placeholder="Last Name"
-      />
+  <input type="file" className="file-input" onChange={handleImageChange} />
 
-      <div className="profile-actions">
-        <button className="save-btn" onClick={handleSaveProfile}>
-          Save
-        </button>
-        <button className="cancel-btn" onClick={() => setIsProfileOpen(false)}>
-          Cancel
-        </button>
-      </div>
-    </div>
+  {previewImage && (
+    <button className="remove-btn" onClick={handleRemoveImage}>
+      Remove Photo
+    </button>
+  )}
+
+  <input
+    type="text"
+    className="profile-input"
+    value={firstName}
+    onChange={(e) => setFirstName(e.target.value)}
+    placeholder="First Name"
+  />
+
+  <input
+    type="text"
+    className="profile-input"
+    value={lastName}
+    onChange={(e) => setLastName(e.target.value)}
+    placeholder="Last Name"
+  />
+
+  <div className="profile-actions">
+    <button className="save-btn" onClick={handleSaveProfile}>
+      Save
+    </button>
+    <button className="cancel-btn" onClick={() => setIsProfileOpen(false)}>
+      Cancel
+    </button>
+  </div>
+
+</div>
   </div>
 )}
     </div>
